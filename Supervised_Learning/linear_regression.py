@@ -1,7 +1,6 @@
-import matplotlib
-matplotlib.use("Agg")  # Set the non-interactive backend (before importing pyplot)
-import matplotlib.pyplot as plt
 import numpy as np
+import pandas as pd
+import matplotlib.pyplot as plt
 from sklearn.linear_model import LinearRegression
 
 # Sample Data
@@ -22,7 +21,4 @@ plt.legend()
 plt.title("Linear Regression Test")
 plt.xlabel("X")
 plt.ylabel("y")
-
-# Save plot as a file (no display window needed)
-plt.savefig("linear_regression_test.png")
-print("Plot saved as 'linear_regression_test.png'")
+plt.show()  # Display the plot interactively

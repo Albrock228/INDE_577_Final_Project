@@ -62,9 +62,12 @@ def real_data_test():
     model = LogisticRegression()
     model.fit(X_train, y_train)
 
-    # Predictions
+    # Predictions and Probabilities
     predictions = model.predict(X_test)
+    probabilities = model.predict_proba(X_test)[:, 1]  # Probability of class 1
+
     print("Real Data Test Predictions (First 20):", predictions[:20])
+    print("Predicted Probabilities (First 20):", probabilities[:20])
 
     # Plot Decision Boundary
     plot_decision_boundary(X, y, model, 

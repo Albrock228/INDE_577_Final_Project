@@ -1,5 +1,6 @@
 import numpy as np
 import matplotlib.pyplot as plt
+import os
 from sklearn.datasets import load_breast_cancer
 from sklearn.model_selection import train_test_split
 from sklearn.preprocessing import StandardScaler
@@ -29,8 +30,8 @@ class Perceptron:
         output = np.dot(X, self.weights) + self.bias
         return np.where(output <= 0, 0, 1)
 
-# Helper function: Plot Decision Boundary
-def plot_decision_boundary(X, y, model, title):
+# Helper function: Plot Decision Boundary and Save
+def plot_decision_boundary(X, y, model, title, filename):
     x_min, x_max = X[:, 0].min() - 1, X[:, 0].max() + 1
     y_min, y_max = X[:, 1].min() - 1, X[:, 1].max() + 1
     xx, yy = np.meshgrid(np.arange(x_min, x_max, 0.1),
@@ -42,7 +43,11 @@ def plot_decision_boundary(X, y, model, title):
     plt.title(title)
     plt.xlabel("Feature 1")
     plt.ylabel("Feature 2")
-    plt.show()
+
+    # Save the plot
+    plt.savefig(filename)
+    print(f"Plot saved as: {os.path.abspath(filename)}")
+    plt.show()  # Display the plot
 
 # === Test 1: Synthetic Data === #
 def synthetic_test():
@@ -55,13 +60,15 @@ def synthetic_test():
 
     predictions = perceptron.predict(X_synthetic)
     print("Synthetic Data Predictions:", predictions)
-    plot_decision_boundary(X_synthetic, y_synthetic, perceptron, "Perceptron Decision Boundary (Synthetic Data)")
+    plot_decision_boundary(X_synthetic, y_synthetic, perceptron, 
+                           "Perceptron Decision Boundary (Synthetic Data)", 
+                           "perceptron_synthetic.png")
 
 # === Test 2: Real Breast Cancer Data === #
 def real_data_test():
     print("\nRunning Real Data Test...")
     data = load_breast_cancer()
-    X = data.data[:, :2]  # Use first two features
+    X = data.data[:, :2]  # Use the first two features
     y = data.target       # Binary labels: 0 (malignant), 1 (benign)
 
     # Standardize the data
@@ -76,7 +83,9 @@ def real_data_test():
 
     predictions = perceptron.predict(X_test)
     print("Real Data Test Predictions:", predictions)
-    plot_decision_boundary(X, y, perceptron, "Perceptron Decision Boundary (Breast Cancer Data)")
+    plot_decision_boundary(X, y, perceptron, 
+                           "Perceptron Decision Boundary (Breast Cancer Data)", 
+                           "perceptron_real.png")
 
 # Run Both Tests
 if __name__ == "__main__":
